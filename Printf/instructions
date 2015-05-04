@@ -1,0 +1,60 @@
+
+Consignes pour Printf
+
+• Vous devez gérer les conversions suivantes : s S p d D i o O u U x X c C
+• Vous devez gérer le %%
+• Vous devez gérer les flags # 0 - + et espace
+• Vous devez gérer la taille minimum du champ
+• Vous devez gérer la précision
+• Vous devez gérer les flags hh h ll l j z
+
+
+1) %   	2) Flags 	 3) Minimum field width 	 4) Period  	5) Precision. Maximum field width   	bis) length modifier    6) Argument type
+
+% [flags] [width] [.precision] [length modifier] type
+
+
+ARGUMENT TYPE
+
+%s ---> print *char
+%S ---> print *int  n'affiche pas de int mais les char associés  (convert a string argument to OCaml syntax (double quotes, escapes)).
+%p ---> print *void (pointer) en héxadécimal = %#x ou %#lx  (adresse)
+%d ---> print int
+%D ---> print int (idem %d) ???
+%i ---> print int (idem %d)   différent que pour un scanf
+%o ---> print int (entier exprimé en octal)  ex = de 0 à 7 puis 10 = (1 * 8) + 0  --->  32 = (3 * 8) + 2   Nb négatif comportement étrange
+%O ---> print (idem %o) ???
+%u ---> print unsigned int  - Nb négatif comportement étrange
+%U ---> print (idem %u) ???
+%x ---> print int (entier exprimé en hexadécimal) avec lettres en minuscule    1 2 3 4 5 6 7 8 9 a b c d e f
+%X ---> print int (entier exprimé en hexadécimal) avec lettres en majuscule	   1 2 3 4 5 6 7 8 9 A B C D E F
+%c ---> print int (son char associé)
+%C ---> print (idem %c) ???
+
+
+DOUBLE %
+
+%% ---> permet d'afficher le char '%'
+
+
+FLAGS
+
+espace ---> Un ou plusieurs espaces entre % et TYPE ajoute UN SEUL ESPACE devant l'argument concerné
+  -    ---> Justifié à gauche
+  0    ---> Remplit les blancs par des 0 dans les conversions numériques
+  +    ---> Ajoute un plus devant les cinversions numériques (0 compris)
+  #    --->	Various uses:
+	  %#o (Octal) 0 prefix inserted (ajoute un 0 au début)
+	  %#x (Hex)   0x prefix added to non-zero values.
+	  %#X (Hex)   0X prefix added to non-zero values.
+
+
+WIDTH
+
+Indique la taille minimale du résultat
+
+
+PRECISION / MAX FIELD WIDTH
+
+Il faut commencer par mettre un point et suivant le TYPE, il s'agit d'une précision ou d'un maximum.
+
