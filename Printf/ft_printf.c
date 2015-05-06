@@ -52,6 +52,8 @@ int 	ft_printf(const char *format, ...)
 
 int		main(void)
 {
-	ft_printf("1111%5%1111\n");
+	char *str = "AAAAA";
+
+	ft_printf("1111%010s1111\n", str);
 	return (0);
 }
