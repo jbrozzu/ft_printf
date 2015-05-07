@@ -561,7 +561,7 @@ void	arg_is_char(t_flags *flags, va_list list, int *i)
 
 //------------------------------------------------------------------------
 
-/*int		print_wstr_rev(t_flags *flags, wchar_t *str, int size)
+int		print_wstr_rev(t_flags *flags, wchar_t *str, int size)
 {
 	if (flags->optdot && flags->prec)
 		ft_putwnstr(str, flags->prec);
@@ -611,81 +611,87 @@ void	arg_is_wstr(t_flags *flags, va_list list, int *tab)
 		fill_it(flags, flags->width);
 		tab[1] += flags->width;
 	}
-}*/
+}
 
 //------------------------------------------------------------------------
+
+void	print_string_tool1(t_flags *flags, char *str, int *tab, int size)
+{
+	int i;
+
+	i = 0;
+	if (flags->o_min)
+	{
+		while (i < flags->precision)
+		{
+			ft_putchar(str[i]);
+			i++;
+		}
+		fill_it(flags, flags->width - i);
+	}
+	else
+	{
+		fill_it(flags, flags->width - flags->precision);
+		while(i < flags->precision)
+		{
+			ft_putchar(str[i]);
+			i++;
+		}
+	}
+	if (flags->width)
+		tab[1] += flags->width;
+	else
+		tab[1] += size;
+}
+
+void	print_string_tool2(t_flags *flags, char *str, int *tab, int size)
+{
+	int i;
+
+	i = 0;
+	if (flags->o_min)
+	{
+		while (str[i])
+		{
+			ft_putchar(str[i]);
+			i++;
+		}
+		if (flags->width - size > 0)
+			fill_it(flags, flags->width - size);
+	}
+	else
+	{
+		if (flags->width - size > 0)
+			fill_it(flags, flags->width - size);
+		while (str[i])
+		{
+			ft_putchar(str[i]);
+			i++;
+		}
+	}
+	tab[1] += flags->width;
+}
+
 
 void	print_string(t_flags *flags, va_list list, int *tab)
 {
 	char	*str;
 	int		size;
-	int 	i;
 
-	i = 0;
 	str = va_arg(list, char*);
 	size = ft_strlen(str);
 	if (str)
 	{
 		if (flags->o_point && (!(flags->precision)))
-		{
 			fill_it(flags, flags->width);
-			size = 0;
-		}
 		else if (flags->o_point && flags->precision)
-		{
-			if (flags->o_min)
-			{
-				while (i < flags->precision)
-				{
-					ft_putchar(str[i]);
-					i++;
-				}
-				fill_it(flags, flags->width - i);
-			}
-			else
-			{
-				fill_it(flags, flags->width - flags->precision);
-				while(i < flags->precision)
-				{
-					ft_putchar(str[i]);
-					i++;
-				}
-			}
-		}
+			print_string_tool1(flags, str, tab, size);
 		else if (flags->width)
-		{
-			if (flags->o_min)
-			{
-				while (str[i])
-				{
-					ft_putchar(str[i]);
-					i++;
-				}
-				if (flags->width - size > 0)
-				{
-					fill_it(flags, flags->width - size);
-				}
-			}
-			else
-			{
-				if (flags->width - size > 0)
-				{
-					fill_it(flags, flags->width - size);
-				}
-				while (str[i])
-				{
-					ft_putchar(str[i]);
-					i++;
-				}
-			}
-		}
+			print_string_tool2(flags, str, tab, size);
 		else
 		{
-			while (str[i])
-			{
-					ft_putchar(str[i]);
-					i++;
-			}
+			ft_putstr(str);
+			tab[1] += size;
 		}
 	}
 	else
@@ -695,13 +701,11 @@ void	print_string(t_flags *flags, va_list list, int *tab)
 
 void	arg_is_string(t_flags *flags, va_list list, int *tab)
 {
-	//if ((!(flags->o_point)) || (flags->o_point && flags->precision) || flags->width)
-	//{
-		//if ((flags->type == 's' && flags->modif1 == 'l') || flags->type == 'S')
-		//	arg_is_wstr(flags, list, tab);
-		//else
-			print_string(flags, list, tab);
-	//}
+	if (/*(flags->type == 's' && flags->modif1 == 'l') || */flags->type == 'S')
+		//arg_is_wstr(flags, list, tab);
+		return ;
+	else
+		print_string(flags, list, tab);
 }
 
 

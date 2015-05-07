@@ -23,9 +23,7 @@ int		get_flags(const char *str, va_list list)
 	while (str[tab[0]] != '\0')
 	{
 		if (str[tab[0]] == '%')
-		{
 			ft_arg_sort(str, list, tab);
-		}
 		else
 		{
 			ft_putchar(str[tab[0]]);

@@ -37,9 +37,7 @@ int 	ft_printf(const char *format, ...)
 	{
 		va_start(list, format);
 		if (check_conv(format) == 1)
-		{
 			ret = get_flags(format, list);
-		}
 		else
 		{
 			ft_putstr(format);
@@ -54,6 +52,6 @@ int		main(void)
 {
 	char *str = "AAAAA";
 
-	ft_printf("1111%010s1111\n", str);
+	ft_printf("1111% s1111\n", str);
 	return (0);
 }
