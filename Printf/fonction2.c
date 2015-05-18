@@ -53,7 +53,7 @@ void	check_prec(const char *str, t_flags *flags, int *tab)
 	if (str[tab[0]] == '.')
 	{
 		tab[0] += 1;
-		flags->o_point = 1;                   // ????????
+		flags->o_point = 1;                   
 		ft_get_next_valor(str, tab, result);
 		flags->precision = ft_atoi(result);
 	}

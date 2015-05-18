@@ -47,11 +47,3 @@ int 	ft_printf(const char *format, ...)
 	va_end(list);
 	return (ret);	
 }
-
-int		main(void)
-{
-	char *str = "AAAAA";
-
-	ft_printf("1111% s1111\n", str);
-	return (0);
-}

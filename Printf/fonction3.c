@@ -91,13 +91,7 @@ void	arg_is_longi(t_flags *flags, va_list list, int *i)
 //------------------------------------------------------------------------------
 
 
-void	arg_is_wchar(va_list list, int *i)
-{
-	wchar_t c;
 
-	c = va_arg(list, wchar_t);
-	i[1] += ft_putwchar(c);
-}
 
 
 //------------------------------------------------------------------------------
@@ -521,22 +515,42 @@ void	arg_is_int(t_flags *flags, va_list list, int *i)
 			print_int(flags, list, i);
 	}
 }
-
+*/
 
 //----------------------------------------------------------------
 
 
-void	print_char(t_flags *flags, va_list list, int *i)
+void	arg_is_wchar(va_list list, int *tab)
+{
+	wchar_t c;
+
+	c = va_arg(list, wchar_t);
+
+	if (!flags->o_min)
+	{
+		if (flags->width - ft_wcharlen(c) > 0)
+			fill_it(flags, flags->width - ft_wcharlen(c));
+		tab[1] += ft_putwchar(c);
+	}
+	else
+	{
+		tab[1] += ft_putwchar(c);
+		if (flags->width - ft_wcharlen(c) > 0)
+			fill_it(flags, flags->width - ft_wcharlen(c));
+	}
+}
+
+void	print_char(t_flags *flags, va_list list, int *tab)
 {
 	int c;
 
 	c = va_arg(list, int);
-	if (flags->min_size - 1 > 0)
-		i[1] += flags->min_size - 1;
-	if (!flags->optmin)
+	if (flags->width - 1 > 0)
+		tab[1] += flags->width - 1;
+	if (!flags->o_min)
 	{
-		if (flags->min_size - 1 > 0)
-			fill_it(flags, flags->min_size - 1);
+		if (flags->width - 1 > 0)
+			fill_it(flags, flags->width - 1);
 		if (c >= 0 && c <= 255)
 			ft_putchar((char)c);
 	}
@@ -544,67 +558,67 @@ void	print_char(t_flags *flags, va_list list, int *i)
 	{
 		if (c >= 0 && c <= 255)
 			ft_putchar((char)c);
-		if (flags->min_size - 1 > 0)
-			fill_it(flags, flags->min_size - 1);
+		if (flags->width - 1 > 0)
+			fill_it(flags, flags->width - 1);
 	}
 	i[1] += 1;
 }
 
-void	arg_is_char(t_flags *flags, va_list list, int *i)
+void	arg_is_char(t_flags *flags, va_list list, int *tab)
 {
-	if (flags->type == 'C' || flags->formf == 'l')
-		arg_is_wchar(flags, list, i);
+	if (flags->type == 'C' || flags->modif1 == 'l')
+		arg_is_wchar(flags, list, tab);
 	else
-		print_char(flags, list, i);
+		print_char(flags, list, tab);
 }
-*/
+
 
 //------------------------------------------------------------------------
 
 int		print_wstr_rev(t_flags *flags, wchar_t *str, int size)
 {
-	if (flags->optdot && flags->prec)
-		ft_putwnstr(str, flags->prec);
+	if (flags->o_point && flags->precision)
+		ft_putwnstr(str, flags->precision);
 	else
 		str ? ft_putwstr(str) : ft_putstr("(null)");
-	if (flags->min_size > size)
+	if (flags->width > size)
 	{
-		fill_it(flags, flags->min_size - size);
-		size += flags->min_size - size;
+		fill_it(flags, flags->width - size);
+		size += flags->width - size;
 	}
 	return (size);
 }
 
-void	print_wstr(t_flags *flags, va_list list, int *i)
+void	print_wstr(t_flags *flags, va_list list, int *tab)
 {
 	wchar_t	*str;
 	int		size;
 
 	size = 0;
 	str = va_arg(list, wchar_t*);
-	str ? (size = ft_wstrlen(str)) : (size += 6);
-	if ((flags->optdot && flags->prec && str))
-		size = ft_wnstrlen(str, flags->prec);
-	if (!flags->optmin)
+	str ? (size = ft_wstrlen(str)) : (size += 0);
+	if ((flags->o_point && flags->precision && str))
+		size = ft_wnstrlen(str, flags->precision);
+	if (!flags->o_min)
 	{
-		if (flags->min_size >= size)
+		if (flags->width >= size)
 		{
-			fill_it(flags, flags->min_size - size);
-			size += flags->min_size - size;
+			fill_it(flags, flags->width - size);
+			size += flags->width - size;
 		}
-		if (flags->optdot && flags->prec)
-			ft_putwnstr(str, flags->prec);
+		if (flags->o_point && flags->precision)
+			ft_putwnstr(str, flags->precision);
 		else
 			str ? ft_putwstr(str) : ft_putstr("(null)");
 	}
 	else
 		size = print_wstr_rev(flags, str, size);
-	i[1] += size;
+	tab[1] += size;
 }
 
 void	arg_is_wstr(t_flags *flags, va_list list, int *tab)
 {
-	if (!(flags->o_point) || (flags->o_point && flags->precision) || flags->o_sharp)
+	if (!(flags->o_point) || (flags->o_point && flags->precision))
 		print_wstr(flags, list, tab);
 	else if ((flags->o_point && (!(flags->precision)) && flags->width))
 	{
@@ -701,9 +715,8 @@ void	print_string(t_flags *flags, va_list list, int *tab)
 
 void	arg_is_string(t_flags *flags, va_list list, int *tab)
 {
-	if (/*(flags->type == 's' && flags->modif1 == 'l') || */flags->type == 'S')
-		//arg_is_wstr(flags, list, tab);
-		return ;
+	if ((flags->type == 's' && flags->modif1 == 'l') || flags->type == 'S')
+		arg_is_wstr(flags, list, tab);
 	else
 		print_string(flags, list, tab);
 }
@@ -721,6 +734,7 @@ void arg_is_mod(t_flags *flags, int *tab)
 			if (flags->width - 1 > 0)
 				fill_it(flags, flags->width - 1);
 			ft_putchar('%');
+			
 		}
 		else
 		{
@@ -729,6 +743,10 @@ void arg_is_mod(t_flags *flags, int *tab)
 				fill_it(flags, flags->width - 1);
 		}
 	}
+	if (flags->width)
+		tab[1] += flags->width;
+	else
+		tab[1] += 1;
 }
 
 
@@ -741,9 +759,9 @@ void	ft_flagstype(t_flags *flags, va_list list, int *tab)
 		arg_is_mod(flags, tab);
 	if (flags->type == 's' || flags->type == 'S')
 		arg_is_string(flags, list, tab);
-	/*if (flags->type == 'c' || flags->type == 'C')
+	if (flags->type == 'c' || flags->type == 'C')
 		arg_is_char(flags, list, i);
-	if (flags->type == 'd' || flags->type == 'i' || flags->type == 'D')
+	/*if (flags->type == 'd' || flags->type == 'i' || flags->type == 'D')
 		arg_is_int(flags, list, i);
 	if (flags->type == 'p')
 		arg_is_ptr(flags, list, i);
@@ -761,7 +779,7 @@ void	ft_type_sort(const char *str, t_flags *flags, va_list list, int *tab)
 {
 	if (flags->type != '\0')
 		ft_flagstype(flags, list, tab);
-	/*else
+	else
 	{
 		if (flags->width - 1 > 0)
 		{
@@ -778,6 +796,6 @@ void	ft_type_sort(const char *str, t_flags *flags, va_list list, int *tab)
 				fill_it(flags, flags->width - 1);
 			}
 		}
-	}*/
+	}
 }
 

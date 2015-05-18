@@ -39,7 +39,7 @@ DOUBLE %
 
 FLAGS
 
-espace ---> Un ou plusieurs espaces entre % et TYPE ajoute UN SEUL ESPACE devant l'argument concerné
+espace ---> Un ou plusieurs espaces entre % et TYPE ajoute UN SEUL ESPACE devant l'argument concerné     PAS AVEC STRING
   -    ---> Justifié à gauche
   0    ---> Remplit les blancs par des 0 dans les conversions numériques
   +    ---> Ajoute un plus devant les cinversions numériques (0 compris)
