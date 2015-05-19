@@ -52,5 +52,12 @@ int		ft_putwnstr(wchar_t *str, int n);
 int		ft_wstrlen(wchar_t *str);
 int		ft_putwstr(wchar_t *str);
 
+int		ft_longnbrlen(long int nb);
+void	ft_putlongnbr(long int nb);
+void	print_plus(t_flags *flags, int *tab, int c, int *size);
+size_t	ft_nbrlen(int nbr);
+int		print_int_fill(t_flags *flags, int *tab, int c);
+void	print_int_opt(t_flags *flags, int c, int size, int *tab);
+
 
 # endif

@@ -58,3 +58,14 @@ PRECISION / MAX FIELD WIDTH
 
 Il faut commencer par mettre un point et suivant le TYPE, il s'agit d'une précision ou d'un maximum.
 
+
+FLAGS 
+
+hh 
+h 
+ll ---> la conversion e, E, f, g, ou G suivante correspond à un argument long dou­ble, ou que la conversion d, i, o, u, x, ou X suiv­ante 
+		correspond à un argument long long
+l ---> long int pour d et i, ou unsigned long int pour u, x, et X)
+j 
+z ---> indiquant que la conversion d'entier suivante (d, i, o, u, i, x, et X), correspond à un argument size_t.
+

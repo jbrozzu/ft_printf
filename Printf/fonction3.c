@@ -6,97 +6,10 @@ HEADER
 #include <stdio.h>
 
 
-//-------------------------------------------------------------------------
-
-
-/*void	print_longint_opt(t_flags *flags, long int l, int size, int *i)
-{
-	i[1] += flags->min_size - size;
-	if (flags->optmin)
-	{
-		flags->optmin && l > 0 ? (ft_putchar('+'), i[1]++) : (i[1] += 0);
-		if (flags->prec)
-			ft_filler('0', flags->prec - ft_longnbrlen(l));
-		l < 0 ? (ft_putchar('-'), l = -l) : (l += 0);
-		ft_putlongnbr(l);
-		fill_it(flags, flags->min_size - size);
-	}
-	else
-	{
-		fill_it(flags, flags->min_size - size);
-		flags->optmin && l > 0 ? (ft_putchar('+'), i[1]++) : (i[1] += 0);
-		if (flags->prec)
-			ft_filler('0', flags->prec - ft_longnbrlen(l));
-		l < 0 ? (ft_putchar('-'), l = -l) : (l += 0);
-		ft_putlongnbr(l);
-	}
-}
-
-int		print_lint_fill(t_flags *flags, int *i, long int l)
-{
-	int	size;
-
-	size = ft_longnbrlen(l);
-	if (flags->prec)
-		size += (flags->prec - size);
-	if (flags->optplus && l > 0)
-		size += 1;
-	if (flags->min_size && size < flags->min_size)
-		print_longint_opt(flags, l, size, i);
-	if (flags->optplus && l > 0)
-		size--;
-	return (size);
-}
-
-void	print_longierr(int *size)
-{
-	ft_putstr("-9223372036854775808");
-	*size = 20;
-}
-
-void	print_longi(t_flags *flags, va_list list, int *i)
-{
-	long int	l;
-	int			size;
-
-	l = (long int)va_arg(list, long int);
-	if (l > -9223372036854775807)
-	{
-		if (flags->prec || flags->min_size)
-			size = print_lint_fill(flags, i, l);
-		else
-		{
-			size = ft_longnbrlen(l);
-			if (flags->optplus)
-			{
-				ft_putchar('+');
-				size++;
-			}
-			l < 0 ? (ft_putchar('-'), l *= -1, size++) : (l += 0);
-			ft_putlongnbr(l);
-		}
-	}
-	else
-		print_longierr(&size);
-	i[1] += size;
-}
-
-void	arg_is_longi(t_flags *flags, va_list list, int *i)
-{
-	if (!(flags->optdot) || (flags->optdot && flags->prec) || flags->optsharp)
-		print_longi(flags, list, i);
-
-
 
 //------------------------------------------------------------------------------
 
-
-
-
-
-//------------------------------------------------------------------------------
-
-
+/*
 int		print_wstr_rev(t_flags *flags, wchar_t *str, int size)
 {
 	if (flags->optdot && flags->prec)
@@ -437,90 +350,172 @@ void	arg_is_ptr(t_flags *flags, va_list list, int *i)
 		ft_putstr("0x");
 		i[1] += 2;
 	}
+} */
+
+
+//-------------------------------------------------------------------------
+
+
+void	print_longint_opt(t_flags *flags, long int l, int size, int *tab)
+{
+	tab[1] += flags->width - size;
+	if (flags->o_min)
+	{
+		flags->o_min && l > 0 ? (ft_putchar('+'), tab[1]++) : (tab[1] += 0);
+		if (flags->precision)
+			ft_filler('0', flags->precision - ft_longnbrlen(l));
+		l < 0 ? (ft_putchar('-'), l = -l) : (l += 0);
+		ft_putlongnbr(l);
+		fill_it(flags, flags->width - size);
+	}
+	else
+	{
+		fill_it(flags, flags->width - size);
+		flags->o_min && l > 0 ? (ft_putchar('+'), tab[1]++) : (tab[1] += 0);
+		if (flags->precision)
+			ft_filler('0', flags->precision - ft_longnbrlen(l));
+		l < 0 ? (ft_putchar('-'), l = -l) : (l += 0);
+		ft_putlongnbr(l);
+	}
+}
+
+int		print_lint_fill(t_flags *flags, int *tab, long int l)
+{
+	int	size;
+
+	size = ft_longnbrlen(l);
+	if (flags->precision)
+		size += (flags->precision - size);
+	if (flags->o_plus && l > 0)
+		size += 1;
+	if (flags->width && size < flags->width)
+		print_longint_opt(flags, l, size, tab);
+	if (flags->o_plus && l > 0)
+		size--;
+	return (size);
+}
+
+void	print_longierr(int *size)
+{
+	ft_putstr("-9223372036854775808");
+	*size = 20;
+}
+
+void	print_long_int(t_flags *flags, va_list list, int *tab)
+{
+	long int	l;
+	int			size;
+
+	l = (long int)va_arg(list, long int);
+	if (l > -9223372036854775807)
+	{
+		if (flags->precision || flags->width)
+			size = print_lint_fill(flags, tab, l);
+		else
+		{
+			size = ft_longnbrlen(l);
+			if (flags->o_plus)
+			{
+				ft_putchar('+');
+				size++;
+			}
+			l < 0 ? (ft_putchar('-'), l *= -1, size++) : (l += 0);
+			ft_putlongnbr(l);
+		}
+	}
+	else
+		print_longierr(&size);
+	tab[1] += size;
+}
+
+void	arg_is_long_int(t_flags *flags, va_list list, int *tab)
+{
+	if (!(flags->o_point) || (flags->o_point && flags->precision) || flags->o_sharp)
+		print_long_int(flags, list, tab);
 }
 
 
 //----------------------------------------------------------------
 
 
-void	print_int_rev(t_flags *flags, int *i, int size, int c)
+void	print_int_rev(t_flags *flags, int *tab, int size, int c)
 {
-	print_plus(flags, i, c, &size);
-	if (flags->optzero || flags->prec)
+	print_plus(flags, tab, c, &size);
+	if (flags->o_zero || flags->precision)
 		c < 0 ? (c = -c, ft_putchar('-')) : (c += 0);
-	if (flags->prec)
-		ft_filler('0', flags->prec - ft_nbrlen(c));
+	if (flags->precision)
+		ft_filler('0', flags->precision - ft_nbrlen(c));
 	ft_putnbr(c);
-	if (flags->min_size)
-		fill_it(flags, flags->min_size - size);
+	if (flags->width)
+		fill_it(flags, flags->width - size);
 }
 
-void	print_no_min(t_flags *flags, int *i, int c)
+void	print_no_min(t_flags *flags, int *tab, int c)
 {
 	int	size;
 
 	size = 0;
-	print_plus(flags, i, c, &size);
+	print_plus(flags, tab, c, &size);
 	c < 0 ? (c = -c, ft_putchar('-')) : (c += 0);
-	if (flags->prec)
-		ft_filler('0', flags->prec - ft_nbrlen(c));
+	if (flags->precision)
+		ft_filler('0', flags->precision - ft_nbrlen(c));
 	ft_putnbr(c);
 }
 
 void	cast_int(int *c, va_list list, t_flags *flags)
 {
-	if (flags->formf == 'h' && flags->formt == 'h')
+	if (flags->modif1 == 'h' && flags->modif2 == 'h')
 		*c = (signed char)va_arg(list, int);
-	else if (flags->formf == 'h' && flags->formt == '\0')
+	else if (flags->modif1 == 'h' && flags->modif2 == '\0')
 		*c = (short)va_arg(list, int);
 	else
 		*c = va_arg(list, int);
 }
 
-void	print_int(t_flags *flags, va_list list, int *i)
+void	print_int(t_flags *flags, va_list list, int *tab)
 {
 	int c;
 	int size;
 
 	cast_int(&c, list, flags);
-	if (flags->prec || flags->min_size)
-		size = print_int_fill(flags, i, c);
+	if (flags->precision || flags->width)
+		size = print_int_fill(flags, tab, c);
 	else
 	{
-		if (flags->optspace && ((!flags->optplus)) && c > 0)
+		if (flags->o_space && ((!flags->o_plus)) && c > 0)
 		{
 			ft_putchar(' ');
-			i[1]++;
+			tab[1]++;
 		}
 		size = ft_nbrlen(c);
 		if (c < 0)
 			size += 1;
-		if (c > 0 && flags->optplus)
+		if (c > 0 && flags->o_plus)
 		{
 			ft_putchar('+');
 			size += 1;
 		}
 		ft_putnbr(c);
 	}
-	i[1] += size;
+	tab[1] += size;
 }
 
-void	arg_is_int(t_flags *flags, va_list list, int *i)
+void	arg_is_int(t_flags *flags, va_list list, int *tab)
 {
 	if (!(flags->o_point) || (flags->o_point && flags->precision) || flags->o_sharp)
 	{
-		if ((flags->modif1 == 'l') || flags->type == 'D' || (flags->modif1 == 'j') || (flags->formf == 'z'))
-			arg_is_longi(flags, list, i);
+		if (flags->modif1 == 'l' || flags->modif1 == 'j' || flags->modif1 == 'z' || flags->type == 'D')
+			arg_is_long_int(flags, list, tab);
 		else
-			print_int(flags, list, i);
+			print_int(flags, list, tab);
 	}
 }
-*/
+
 
 //----------------------------------------------------------------
 
 
-void	arg_is_wchar(va_list list, int *tab)
+void	arg_is_wchar(t_flags *flags, va_list list, int *tab)
 {
 	wchar_t c;
 
@@ -561,7 +556,7 @@ void	print_char(t_flags *flags, va_list list, int *tab)
 		if (flags->width - 1 > 0)
 			fill_it(flags, flags->width - 1);
 	}
-	i[1] += 1;
+	tab[1] += 1;
 }
 
 void	arg_is_char(t_flags *flags, va_list list, int *tab)
@@ -760,10 +755,10 @@ void	ft_flagstype(t_flags *flags, va_list list, int *tab)
 	if (flags->type == 's' || flags->type == 'S')
 		arg_is_string(flags, list, tab);
 	if (flags->type == 'c' || flags->type == 'C')
-		arg_is_char(flags, list, i);
-	/*if (flags->type == 'd' || flags->type == 'i' || flags->type == 'D')
-		arg_is_int(flags, list, i);
-	if (flags->type == 'p')
+		arg_is_char(flags, list, tab);
+	if (flags->type == 'd' || flags->type == 'i' || flags->type == 'D')
+		arg_is_int(flags, list, tab);
+	/*if (flags->type == 'p')
 		arg_is_ptr(flags, list, i);
 	if (flags->type == 'x' || flags->type == 'X')
 		arg_is_x(flags, list, i);
