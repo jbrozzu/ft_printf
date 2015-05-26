@@ -437,29 +437,168 @@ void	arg_is_long_int(t_flags *flags, va_list list, int *tab)
 
 //----------------------------------------------------------------
 
-
-void	print_int_rev(t_flags *flags, int *tab, int size, int c)
+void	print_no_size(t_flags *flags, int *tab, int c)
 {
-	print_plus(flags, tab, c, &size);
-	if (flags->o_zero || flags->precision)
-		c < 0 ? (c = -c, ft_putchar('-')) : (c += 0);
-	if (flags->precision)
-		ft_filler('0', flags->precision - ft_nbrlen(c));
+	if (c < 0 || (flags->o_plus && c >= 0))
+		tab[1] += 1;
+	if (flags->o_plus && c >= 0)
+		ft_putchar('+');
 	ft_putnbr(c);
-	if (flags->width)
-		fill_it(flags, flags->width - size);
+	tab[1] += ft_nbrlen(c);
 }
 
-void	print_no_min(t_flags *flags, int *tab, int c)
+void	print_width_no_prec(t_flags *flags, int *tab, int c)
 {
-	int	size;
+	int size;
 
-	size = 0;
-	print_plus(flags, tab, c, &size);
+	c >= 0 ? (size = ft_nbrlen(c)) : (size = (ft_nbrlen(c) + 1));
+	if (flags->o_plus && c >= 0)
+		size += 1;
+	if (flags->width > size)
+	{
+		ft_filler(' ', flags->width - size);
+		if (flags->o_plus && c >= 0)
+			ft_putchar('+');
+		ft_putnbr(c);
+		tab[1] += flags->width;
+	}
+	else
+		print_no_size(flags, tab, c);
+}
+
+void	print_width_prec_rev(t_flags *flags, int *tab, int c)
+{
+	int i;
+	int size;
+
+	i = 0;
+	c < 0 ? ((size = ft_nbrlen(c) + 1), i += 1) : (size = ft_nbrlen(c));
 	c < 0 ? (c = -c, ft_putchar('-')) : (c += 0);
-	if (flags->precision)
+	if (flags->precision && flags->precision > ft_nbrlen(c))
 		ft_filler('0', flags->precision - ft_nbrlen(c));
 	ft_putnbr(c);
+	if (flags->precision && flags->precision > ft_nbrlen(c))
+		ft_filler(' ', flags->width - (flags->precision + i));
+	else
+		ft_filler(' ', flags->width - size);
+	tab[1] += flags->width;
+}
+
+void	print_prec_no_width(t_flags *flags, int *tab, int c)
+{
+	if (flags->precision > ft_nbrlen(c))
+	{
+		if (flags->o_plus && c >= 0)
+		{
+			ft_putchar('+');
+			tab[1] += 1;
+		}
+		c < 0 ? (c = -c, ft_putchar('-'), tab[1] += 1) : (c += 0);
+		ft_filler('0', flags->precision - ft_nbrlen(c));
+		ft_putnbr(c);
+		tab[1] += flags->precision;
+	}
+	else
+		print_no_size(flags, tab, c);
+}
+
+void	print_width_prec(t_flags *flags, int *tab, int c)
+{
+	int i;
+
+	i = 0;
+	if (c < 0 || (flags->o_plus && c >= 0))
+		i += 1;
+	if (flags->precision >= flags->width)
+		print_prec_no_width(flags, tab, c);
+	else
+	{
+		ft_filler(' ', flags->width - (flags->precision + i));
+		if (flags->o_plus && c >= 0)
+			ft_putchar('+');
+		c < 0 ? (c = -c, ft_putchar('-')) : (c += 0);
+		ft_filler('0', flags->precision - ft_nbrlen(c));
+		ft_putnbr(c);
+		tab[1] += flags->width;
+	}
+}
+
+void	check_width_prec(t_flags *flags, int *tab, int c)
+{
+	int size;
+
+	c >= 0 ? (size = ft_nbrlen(c)) : (size = (ft_nbrlen(c) + 1));
+	if (flags->width < size && flags->precision < ft_nbrlen(c))
+		print_no_size(flags, tab, c);
+	else if (flags->width > size && flags->precision < ft_nbrlen(c))
+		print_width_no_prec(flags, tab, c);
+	else if (flags->width < size && flags->precision > ft_nbrlen(c))
+		print_prec_no_width(flags, tab, c);
+	else
+		print_width_prec(flags, tab, c);
+
+}
+
+void	print_no_flags(t_flags *flags, int *tab, int c)
+{
+	if (!flags->width && !flags->precision)
+		print_no_size(flags, tab, c);
+	else if (flags->width && !flags->precision)
+		print_width_no_prec(flags, tab, c);
+	else if (!flags->width && flags->precision)
+		print_prec_no_width(flags, tab, c);
+	else
+		check_width_prec(flags, tab, c);
+}
+
+void	print_flag_zero(t_flags *flags, int *tab, int c)
+{
+	int size;
+
+	c >= 0 ? (size = ft_nbrlen(c)) : (size = (ft_nbrlen(c) + 1));
+	if (flags->width && flags->width > size && !flags->precision)
+	{
+		c < 0 ? (c = -c, ft_putchar('-')) : (c += 0);
+		ft_filler('0', flags->width - size);
+		ft_putnbr(c);
+		tab[1] += flags->width;
+	}
+	else
+		print_no_flags(flags, tab, c);
+}
+
+void	print_flag_space(t_flags *flags, int *tab, int c)
+{
+	int size;
+
+	c >= 0 ? (size = ft_nbrlen(c)) : (size = (ft_nbrlen(c) + 1));
+	if (c >= 0 && ((flags->width <= size && !flags->precision) ||
+		(flags->precision && (!flags->width || flags->width <= size)) ||
+		(flags->width == flags->precision)))
+	{
+		ft_putchar(' ');
+		tab[1] += 1;
+		print_no_flags(flags, tab, c);
+	}
+	else
+		print_no_flags(flags, tab, c);
+}
+
+void	print_flag_min(t_flags *flags, int *tab, int c, va_list list)
+{
+	int size;
+
+	c >= 0 ? (size = ft_nbrlen(c)) : (size = (ft_nbrlen(c) + 1));
+	if (flags->width && flags->width > size && ((!flags->precision ||
+		flags->precision <= ft_nbrlen(c)) || (flags->precision > ft_nbrlen(c) &&
+		flags->precision < flags->width)))
+		print_width_prec_rev(flags, tab, c);
+	else
+	{
+		flags->o_min = 0;
+		arg_is_int_flags(flags, list, tab, c);
+
+	}
 }
 
 void	cast_int(int *c, va_list list, t_flags *flags)
@@ -472,42 +611,35 @@ void	cast_int(int *c, va_list list, t_flags *flags)
 		*c = va_arg(list, int);
 }
 
-void	print_int(t_flags *flags, va_list list, int *tab)
+void	arg_is_int_flags(t_flags *flags, va_list list, int *tab, int c)
+{
+	if (flags->o_min)
+		print_flag_min(flags, tab, c, list);
+	else if (flags->o_zero)
+		print_flag_zero(flags, tab, c);
+	else if (flags->o_space)
+		print_flag_space(flags, tab, c);
+	else
+		print_no_flags(flags, tab, c);
+}
+
+void	get_int(t_flags *flags, va_list list, int *tab)
 {
 	int c;
-	int size;
 
 	cast_int(&c, list, flags);
-	if (flags->precision || flags->width)
-		size = print_int_fill(flags, tab, c);
-	else
-	{
-		if (flags->o_space && ((!flags->o_plus)) && c > 0)
-		{
-			ft_putchar(' ');
-			tab[1]++;
-		}
-		size = ft_nbrlen(c);
-		if (c < 0)
-			size += 1;
-		if (c > 0 && flags->o_plus)
-		{
-			ft_putchar('+');
-			size += 1;
-		}
-		ft_putnbr(c);
-	}
-	tab[1] += size;
+	arg_is_int_flags(flags, list, tab, c);
 }
 
 void	arg_is_int(t_flags *flags, va_list list, int *tab)
 {
 	if (!(flags->o_point) || (flags->o_point && flags->precision) || flags->o_sharp)
 	{
-		if (flags->modif1 == 'l' || flags->modif1 == 'j' || flags->modif1 == 'z' || flags->type == 'D')
+		if (flags->modif1 == 'l' || flags->modif1 == 'j' || flags->modif1 == 'z' ||
+			flags->type == 'D')
 			arg_is_long_int(flags, list, tab);
 		else
-			print_int(flags, list, tab);
+			get_int(flags, list, tab);
 	}
 }
 
