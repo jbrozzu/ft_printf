@@ -33,3 +33,27 @@ int		absolut_int(int i)
 		i *= (-1);
 	return (i);
 }
+
+void	ft_putnstr(char *str, size_t len)
+{
+	size_t i;
+
+	i = 0;
+	while(str[i] && i < len)
+	{
+		ft_putchar(str[i]);
+		i++;
+	}
+}
+
+void	ft_putstrfrom(char *str, size_t len)
+{
+	size_t i;
+
+	i = len - 1;
+	while (str[i])
+	{
+		ft_putchar(str[i]);
+		i++;
+	}
+}

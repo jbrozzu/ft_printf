@@ -8,6 +8,12 @@ HEADER
 # include "libft/libft.h"
 # include <stdio.h>
 # include <stdarg.h>
+# include <LIMITS.h>
+# define MAJHEXA ("0123456789ABCDEF")
+# define MINHEXA ("0123456789abcdef")
+# define OCTBASE ("0x000000000000")
+
+//# define ULONG_MAX 18446744073709551615
 
 typedef	struct	s_flags
 {
@@ -55,9 +61,14 @@ int		ft_longnbrlen(long int nb);
 void	ft_putlongnbr(long int nb);
 void	print_plus(t_flags *flags/*, int *tab*/, int c/*, int *size*/);
 int		ft_nbrlen(int nbr);
+void	ft_putlnbr(unsigned long long int nbr);
+int		ft_lnbrlen(unsigned long long int nbr);
 int		print_int_fill(t_flags *flags, int *tab, int c);
 void	print_int_opt(t_flags *flags, int c, int size, int *tab);
 void	arg_is_int_flags(t_flags *flags, va_list list, int *tab, int c);
-
+void	arg_is_long_int_flags(t_flags *flags, va_list list, int *tab, long int c);
+int		max_value(t_flags *flags, unsigned long long nb);
+void	ft_putnstr(char *str, size_t len);
+void	ft_putstrfrom(char *str, size_t len);
 
 # endif

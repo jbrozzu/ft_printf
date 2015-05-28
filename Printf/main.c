@@ -4,66 +4,104 @@ HEADER
 
 #include "ft_printf.h"
 #include <stdio.h>
+#include <locale.h>
+# include <LIMITS.h>
+
 
 int		main(void)
 {
-	char *str = "AAAAA";       //     %-4.3d    %-10.5d
+	char *str = "AAAAA";       //              %20.17p     %.18p    
 	int i;
 	int j;
 	char c = 'Y';
 	int k = 42;
 
-	i = ft_printf("i%+di\n", 42);
+	char* l = setlocale(LC_ALL, "");
+	
+	/*
+	str = ft_strdup(OCTBASE);
+	ft_bzero(str + 2, 12);
+	pt = va_arg(list, unsigned long int);
+	ft_linttohexa(pt, str, MINHEXA);
+	size = ft_strlen(str);
+	ft_putstr(str);
+	*/
+
+
+	i = ft_printf("i%17.7pi\n", &k);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%17.7pi\n", &k);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%-18.pi\n", &k);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%-18.pi\n", &k);
+	printf("return real : %d\n\n", j - 3);
+
+	
+	i = ft_printf("i%-7.pi\n", &k);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%-7.pi\n", &k);
+	printf("return real : %d\n\n", j - 3);
+
+
+	/*i = ft_printf("i%6pi\n", &k);
 	printf("return mine : %d\n", i);
-	j = printf("i%+di\n", 42);
+	j = printf("i%6pi\n", &k);
+	printf("return real : %d\n\n", j);*/
+
+
+	i = ft_printf("i%-.18pi\n", &k);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%-.18pi\n", &k);
+	printf("return real : %d\n\n", j - 3);
+
+
+	/*i = ft_printf("i%.6pi\n", &k);
+	printf("return mine : %d\n", i);
+	j = printf("i%.6pi\n", &k);
+	printf("return real : %d\n\n", j);*/
+
+
+	i = ft_printf("i%-17.7pi\n", &k);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%-17.7pi\n", &k);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%-20.17pi\n", &k);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%-20.17pi\n", &k);
+	printf("return real : %d\n\n", j - 3);
+
+
+	/*i = ft_printf("i%2.2pi\n", &k);
+	printf("return mine : %d\n", i);
+	j = printf("i%2.2pi\n", &k);
 	printf("return real : %d\n\n", j);
 
-	i = ft_printf("i%+5di\n", 42);
+
+	i = ft_printf("i%5.2pi\n", &k);
 	printf("return mine : %d\n", i);
-	j = printf("i%+5di\n", 42);
+	j = printf("i%5.2pi\n", &k);
 	printf("return real : %d\n\n", j);
 
-	i = ft_printf("i%+2di\n", 42);
+
+	i = ft_printf("i%2.5pi\n", &k);
 	printf("return mine : %d\n", i);
-	j = printf("i%+2di\n", 42);
+	j = printf("i%2.5pi\n", &k);
 	printf("return real : %d\n\n", j);
 
-	i = ft_printf("i%+.6di\n", 42);
+
+	i = ft_printf("i%5.5pi\n", &k);
 	printf("return mine : %d\n", i);
-	j = printf("i%+.6di\n", 42);
+	j = printf("i%5.5pi\n", &k);
 	printf("return real : %d\n\n", j);
 
-	i = ft_printf("i%+.2di\n", 42);
-	printf("return mine : %d\n", i);
-	j = printf("i%+.2di\n", 42);
-	printf("return real : %d\n\n", j);
+	
 
-	i = ft_printf("i%+10.5di\n", 42);
-	printf("return mine : %d\n", i);
-	j = printf("i%+10.5di\n", 42);
-	printf("return real : %d\n\n", j);
+/////////////
 
-	i = ft_printf("i%+2.2di\n", 42);
-	printf("return mine : %d\n", i);
-	j = printf("i%+2.2di\n", 42);
-	printf("return real : %d\n\n", j);
-
-	i = ft_printf("i%+5.2di\n", 42);
-	printf("return mine : %d\n", i);
-	j = printf("i%+5.2di\n", 42);
-	printf("return real : %d\n\n", j);
-
-	i = ft_printf("i%+2.5di\n", 42);
-	printf("return mine : %d\n", i);
-	j = printf("i%+2.5di\n", 42);
-	printf("return real : %d\n\n", j);
-
-	i = ft_printf("i%+5.5di\n", 42);
-	printf("return mine : %d\n", i);
-	j = printf("i%+5.5di\n", 42);
-	printf("return real : %d\n\n", j);
-
-	/*i = printf("i%-2.2di\n", 42);
+	i = printf("i%-2.2di\n", 42);
 	printf("return mine : %d\n", i);
 	j = printf("i%-2.2di\n", -42);
 	printf("return real : %d\n\n", j);

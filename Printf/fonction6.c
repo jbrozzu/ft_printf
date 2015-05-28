@@ -21,6 +21,11 @@ int		ft_longnbrlen(long int nb)
 
 void	ft_putlongnbr(long int nb)
 {
+	if (nb < 0)
+	{
+		ft_putchar('-');
+		nb = -nb;
+	}
 	if (nb >= 0 && nb <= 9)
 		ft_putchar('0' + nb);
 	else
@@ -44,6 +49,30 @@ int		ft_nbrlen(int nbr)
 	if (nbr < 0)
 		nbr = -nbr;
 	while (nbr / 10)
+	{
+		nbr /= 10;
+		i++;
+	}
+	return (i);
+}
+
+void	ft_putlnbr(unsigned long long int nbr)
+{
+	if (nbr <= 9)
+		ft_putchar(nbr + '0');
+	else
+	{
+		ft_putlnbr(nbr / 10);
+		ft_putlnbr(nbr % 10);
+	}
+}
+
+int		ft_lnbrlen(unsigned long long int nbr)
+{
+	int i;
+
+	i = 1;
+	while (nbr > 9)
 	{
 		nbr /= 10;
 		i++;
