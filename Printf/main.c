@@ -10,14 +10,111 @@ HEADER
 
 int		main(void)
 {
-	char *str = "AAAAA";       //              %20.17p     %.18p    
+	char *str = "Salut!";       //              %20.17p     %.18p    
 	int i;
 	int j;
-	char c = 'Y';
+	char c;
 	int k = 42;
 
 	char* l = setlocale(LC_ALL, "");
 	
+
+
+
+	i = ft_printf("i%si\n", "bonjour");
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%si\n", "bonjour");
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%di\n", 42);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%di\n", 42);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%pi\n", &c);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%pi\n", &c);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%%i\n");
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%%i\n");
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%Si\n", L"暖炉");
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%Si\n", L"暖炉");
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%Di\n", LONG_MAX);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%Di\n", LONG_MAX);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%ii\n", 42);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%ii\n", 42);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%oi\n", 42);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%oi\n", 42);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%Oi\n", 42);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%Oi\n", 42);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%ui\n", 100000);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%ui\n", 100000);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%Ui\n", ULONG_MAX);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%Ui\n", ULONG_MAX);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%xi\n", 42);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%xi\n", 42);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%Xi\n", 42);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%Xi\n", 42);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%ci\n", 'c');
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%ci\n", 'c');
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%Ci\n", L'플');
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%Ci\n", L'플');
+	printf("return real : %d\n\n", j - 3);
+
+
+	printf("%s%d%p%%%S%D%i%o%O%u%U%x%X%c%C","bonjour", 42, &c, L"暖炉", LONG_MAX, 42, 42, 42, 100000, ULONG_MAX, 42, 42, 'c', L'플');
+	printf("\n");
+ ft_printf("%s%d%p%%%S%D%i%o%O%u%U%x%X%c%C","bonjour", 42, &c, L"暖炉", LONG_MAX, 42, 42, 42, 100000, ULONG_MAX, 42, 42, 'c', L'플');
+
+
+
+
+	bonjour420x7fff5f4bda57%暖炉 9223372036854775807  42		52 				52                  100000184467440737095516152a2Ac플
+
+	bonjour420x7fff580fb75f%暖炉 9223372036854775807  42		52 			   3770240000000052     100000184467440737095516152a2Ac플
+
+	bonjour420x7fff580fb75f%暖炉 9223372036854775807  42   3770240000000052 3770240000000052     100000184467440737095516152a2Ac플
+
+	bonjour420x7fff5d2e975f%暖炉 9223372036854775807  42     52               40000000052        100000184467440737095516152a2Ac플
+
+
+
+
 	/*
 	str = ft_strdup(OCTBASE);
 	ft_bzero(str + 2, 12);
@@ -25,53 +122,58 @@ int		main(void)
 	ft_linttohexa(pt, str, MINHEXA);
 	size = ft_strlen(str);
 	ft_putstr(str);
-	*/
-
-
-	i = ft_printf("i%17.7pi\n", &k);
-	printf("return mine : %d\n", i - 3);
-	j = printf("i%17.7pi\n", &k);
-	printf("return real : %d\n\n", j - 3);
-
-	i = ft_printf("i%-18.pi\n", &k);
-	printf("return mine : %d\n", i - 3);
-	j = printf("i%-18.pi\n", &k);
-	printf("return real : %d\n\n", j - 3);
-
 	
-	i = ft_printf("i%-7.pi\n", &k);
+
+	i = ft_printf("i%4.si\n", str);
 	printf("return mine : %d\n", i - 3);
-	j = printf("i%-7.pi\n", &k);
+	j = printf("i%4.si\n", str);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%3.si\n", str);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%3.si\n", str);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%8.si\n", str);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%8.si\n", str);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%8.si\n", str);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%8.si\n", str);
+	printf("return real : %d\n\n", j - 3);
+	
+	i = ft_printf("i%0.3si\n", str);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%0.3si\n", str);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%0.8si\n", str);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%0.8si\n", str);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%04.3si\n", str);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%04.3si\n", str);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%08.7si\n", str);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%08.7si\n", str);
 	printf("return real : %d\n\n", j - 3);
 
 
-	/*i = ft_printf("i%6pi\n", &k);
-	printf("return mine : %d\n", i);
-	j = printf("i%6pi\n", &k);
-	printf("return real : %d\n\n", j);*/
-
-
-	i = ft_printf("i%-.18pi\n", &k);
+	i = ft_printf("i%08.2si\n", str);
 	printf("return mine : %d\n", i - 3);
-	j = printf("i%-.18pi\n", &k);
+	j = printf("i%08.2si\n", str);
 	printf("return real : %d\n\n", j - 3);
 
-
-	/*i = ft_printf("i%.6pi\n", &k);
-	printf("return mine : %d\n", i);
-	j = printf("i%.6pi\n", &k);
-	printf("return real : %d\n\n", j);*/
-
-
-	i = ft_printf("i%-17.7pi\n", &k);
+	i = ft_printf("i%04.8si\n", str);
 	printf("return mine : %d\n", i - 3);
-	j = printf("i%-17.7pi\n", &k);
-	printf("return real : %d\n\n", j - 3);
-
-	i = ft_printf("i%-20.17pi\n", &k);
-	printf("return mine : %d\n", i - 3);
-	j = printf("i%-20.17pi\n", &k);
-	printf("return real : %d\n\n", j - 3);
+	j = printf("i%04.8si\n", str);
+	printf("return real : %d\n\n", j - 3);    */
 
 
 	/*i = ft_printf("i%2.2pi\n", &k);

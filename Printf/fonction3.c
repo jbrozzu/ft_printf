@@ -855,7 +855,7 @@ void	arg_is_wstr(t_flags *flags, va_list list, int *tab)
 
 //------------------------------------------------------------------------
 
-void	print_string_tool1(t_flags *flags, char *str, int *tab, int size)
+/*void	print_string_tool1(t_flags *flags, char *str, int *tab, int size)
 {
 	int i;
 
@@ -951,6 +951,113 @@ void	print_string(t_flags *flags, va_list list, int *tab)
 			fill_it(flags, flags->width);
 			tab[1] += flags->width;
 		}
+}*/
+
+void	print_str_no_flags(t_flags *flags, int *tab, int size, char *str)
+{
+	if (flags->width && flags->o_point && !flags->precision)
+	{
+		ft_filler(' ', flags->width);
+		tab[1] += flags->width;
+	}
+	else if (flags->width && flags->width > size && (!flags->precision || flags->precision >= size))
+	{
+		ft_filler(' ', flags->width - size);
+		ft_putstr(str);
+		tab[1] += flags->width;
+	}
+	else if (flags->precision && flags->precision < size && (!flags->width || flags->width <= flags->precision))
+	{
+		ft_putnstr(str, flags->precision);
+		tab[1] += flags->precision;
+	}
+	else if (flags->precision && flags->precision < size && flags->width && flags->width > flags->precision)
+	{
+		ft_filler(' ', flags->width - flags->precision);
+		ft_putnstr(str, flags->precision);
+		tab[1] += flags->width;
+	}
+	else
+	{
+		ft_putstr(str);
+		tab[1] += size;
+	}
+}
+
+void	print_str_min(t_flags *flags, int *tab, int size, char *str)
+{
+	if (flags->width && flags->o_point && !flags->precision)
+	{
+		ft_filler(' ', flags->width);
+		tab[1] += flags->width;
+	}
+	else if (flags->width && ((!flags->precision && flags->width > size) ||
+		(flags->precision && ((flags->precision < size && flags->width >
+		flags->precision) || (flags->precision > size && flags->width > size)))))
+	{
+		if (flags->precision && flags->precision < size)
+		{
+			ft_putnstr(str, flags->precision);
+			ft_filler(' ', flags->width - flags->precision);
+			tab[1] += flags->width;
+		}
+		else
+		{
+			ft_putstr(str);
+			ft_filler(' ', flags->width - size);
+			tab[1] += flags->width;
+		}
+	}
+	else
+		print_str_no_flags(flags, tab, size, str);
+}
+
+void	print_str_zero(t_flags *flags, int *tab, int size, char *str)
+{
+	if (flags->width && flags->o_point && !flags->precision)
+	{
+		ft_filler('0', flags->width);
+		tab[1] += flags->width;
+	}
+	else if (flags->width && ((!flags->precision && flags->width > size) ||
+		(flags->precision && ((flags->precision < size && flags->width >
+		flags->precision) || (flags->precision > size && flags->width > size)))))
+	{
+		if (flags->precision && flags->precision < size)
+		{
+			ft_filler('0', flags->width - flags->precision);
+			ft_putnstr(str, flags->precision);
+		}
+		else
+		{
+			ft_filler('0', flags->width - size);
+			ft_putstr(str);
+		}
+		tab[1] += flags->width;
+	}
+	else
+		print_str_no_flags(flags, tab, size, str);
+}
+
+void	print_string(t_flags *flags, va_list list, int *tab)
+{
+	char *str;
+	int size;
+
+	str = va_arg(list, char*);
+	if (str == 0 && !(flags->o_point))
+	{
+		ft_putstr("(null)");
+		tab[1] += 6;
+		return;
+	}
+	str == 0 ? (size = 0) : (size = ft_strlen(str));
+	if (flags->o_zero)
+		print_str_zero(flags, tab, size, str);
+	else if (flags->o_min)
+		print_str_min(flags, tab, size, str);
+	else
+		print_str_no_flags(flags, tab, size, str);
 }
 
 void	arg_is_string(t_flags *flags, va_list list, int *tab)
