@@ -162,53 +162,150 @@ void	ft_inttohexa(unsigned long long int nb, char *str, char *hex)
 		str[0] = '0';
 }
 
-void	cast_hexa(unsigned long long int *c, va_list list, t_flags *flags)
+void	cast_hexa(unsigned long long int *nb, va_list list, t_flags *flags)
 {
 	if (flags->modif1 == 'h' && flags->modif2 == 'h')
-		*c = (unsigned char)va_arg(list, int);
+		*nb = (unsigned char)va_arg(list, int);
 	else if (flags->modif1 == 'h' && flags->modif2 == '\0')
-		*c = (unsigned short)va_arg(list, int);
+		*nb = (unsigned short)va_arg(list, int);
 	else
-		*c = va_arg(list, unsigned long long int);
+		*nb = va_arg(list, unsigned long long int);
 }
 
-void	print_x(t_flags *flags, va_list list, int *tab)
+void	print_x_flag_sharp(t_flags *flags, int *tab, char *str)
 {
-	unsigned long long int	pt;
-	char					str[16];
+	int size;
 
-	ft_bzero(str, 16);
-	cast_hexa(&pt, list, flags);
-	if (pt > 0 && flags->o_sharp)
-		flags->type == 'x' ? ft_putstr("0x") : ft_putstr("0X"), tab[1] += 2;
-	flags->type == 'x' ? ft_inttohexa(pt, str, MINHEXA) : ft_inttohexa(pt, str, MAJHEXA);
-	if (flags->width > (int)(flags->precision + ft_strlen(str)))
+	size = ft_strlen(str);
+	if (!flags->width && flags->o_point && (!flags->precision || flags->precision == 0))
+		return;
+	else if (flags->width && flags->width > (size + 2) && (!flags->precision ||
+		flags->precision <= size))
 	{
-		if (flags->width > flags->precision)
-			flags->precision ? fill_it(flags, flags->width - flags->precision) : \
-			fill_it(flags, flags->width - ft_strlen(str));
-		flags->precision ? (tab[1] += flags->width - flags->precision) :\
-		(tab[1] += flags->width - ft_strlen(str));
+		ft_filler(' ', flags->width - (size + 2));
+		flags->type == 'x' ? ft_putstr("0x") : ft_putstr("0X");
+		ft_putstr(str);
+		tab[1] += flags->width;
 	}
-	if (flags->precision)
+	else if (flags->precision && flags->precision > size &&
+		(!flags->width || flags->width <= (flags->precision + 2)))
 	{
-		if (flags->precision > (int)ft_strlen(str))
-			ft_filler('0', flags->precision - ft_strlen(str));
-		tab[1] += flags->precision - ft_strlen(str);
+		flags->type == 'x' ? ft_putstr("0x") : ft_putstr("0X");
+		ft_filler('0', flags->precision - size);
+		ft_putstr(str);
+		tab[1] += (flags->precision + 2);
 	}
-	ft_putstr(str);
-	tab[1] += ft_strlen(str);
+	else if (flags->width && flags->precision && flags->width > (flags->precision + 2) &&
+		flags->precision > size)
+	{
+		ft_filler(' ', flags->width - (flags->precision + 2));
+		flags->type == 'x' ? ft_putstr("0x") : ft_putstr("0X");
+		ft_filler('0', flags->precision - size);
+		ft_putstr(str);
+		tab[1] += flags->width;
+	}
+	else
+	{
+		flags->type == 'x' ? ft_putstr("0x") : ft_putstr("0X");
+		ft_putstr(str);
+		tab[1] += size + 2;
+	}
+}
+
+void	print_x_no_flags(t_flags *flags, int *tab, char *str, unsigned long long int value)
+{
+	int size;
+
+	size = ft_strlen(str);
+	if (flags->width && flags->width > size && (!flags->precision ||
+	flags->precision <= size))
+	{
+		ft_filler(' ', flags->width - size);
+		ft_putstr(str);
+		tab[1] += flags->width;
+	}
+	else if (flags->precision && flags->precision > size &&
+		(!flags->width || flags->width <= flags->precision))
+	{
+		ft_filler('0', flags->precision - size);
+		ft_putstr(str);
+		tab[1] += (flags->precision);
+	}
+	else if (flags->width && flags->precision && flags->width > flags->precision &&
+		flags->precision > size)
+	{
+		ft_filler(' ', flags->width - flags->precision);
+		ft_filler('0', flags->precision - size);
+		ft_putstr(str);
+		tab[1] += flags->width;
+	}
+	else if (flags->empty_w == 1 && (!flags->precision || flags->precision == 0)  && value == 0)   ////////////////////////
+		return;																						/////////////////////
+	else																							///////////////////////
+	{
+		ft_putstr(str);
+		tab[1] += size;
+	}
+}
+
+void	print_x_flag_min(t_flags *flags, int *tab, char *str, unsigned long long int value)
+{
+	int size;
+
+	size = ft_strlen(str);
+	if (flags->width && flags->width > size && (!flags->precision ||
+		flags->precision < size || flags->width > flags->precision))
+	{
+		if (flags->precision && flags->precision > size)
+			ft_filler('0', flags->precision - size);
+		ft_putstr(str);
+		if (flags->precision && flags->precision > size)
+			ft_filler(' ', flags->width - flags->precision);
+		else
+			ft_filler(' ', flags->width - size);
+		tab[1] += flags->width;
+	}
+	else
+		print_x_no_flags(flags, tab, str, value);
+}
+
+void 	print_x_flag_zero(t_flags *flags, int *tab, char *str, unsigned long long int value)
+{
+	int size;
+
+	size = ft_strlen(str);
+	if (flags->width && !flags->o_point && !flags->precision)
+	{
+		ft_filler('0', flags->width - size);
+		ft_putstr(str);
+		tab[1] += flags->width;
+	}
+	else
+		print_x_no_flags(flags, tab, str, value);
+}
+
+void	arg_is_x_flags(t_flags *flags, int *tab, char *str, unsigned long long int value)
+{
+	if (flags->o_sharp && value > 0)
+		print_x_flag_sharp(flags, tab, str);
+	else if (flags->o_zero)
+		print_x_flag_zero(flags, tab, str, value);
+	else if (flags->o_min)
+		print_x_flag_min(flags, tab, str, value);
+	else
+		print_x_no_flags(flags, tab, str, value);
 }
 
 void	arg_is_x(t_flags *flags, va_list list, int *tab)
 {
-	if ((!(flags->o_point)) || (flags->o_point && flags->precision))
-	{
-		if (flags->type == 'x' || flags->type == 'X')
-			print_x(flags, list, tab);
-	}
-}
+	unsigned long long int	value;
+	char					str[16];
 
+	ft_bzero(str, 16);
+	cast_hexa(&value, list, flags);
+	flags->type == 'x' ? ft_inttohexa(value, str, MINHEXA) : ft_inttohexa(value, str, MAJHEXA);
+	arg_is_x_flags(flags, tab, str, value);
+}
 
 //---------------------------------------------------------------------
 
@@ -252,7 +349,8 @@ void	print_ptr_no_flags(t_flags *flags, int *tab, char *str)
 		ft_putstrfrom(str, 3);
 		tab[1] += (flags->precision + 2);
 	}
-	else if (flags->width && flags->precision)
+	else if (flags->width && flags->precision && flags->width > (flags->precision + 2) &&
+			flags->precision > size)
 	{
 		ft_filler(' ', flags->width - (flags->precision + 2));
 		ft_putnstr(str, 2);
@@ -292,7 +390,7 @@ void	print_ptr_flag_min(t_flags *flags, int *tab, char *str)
 		flags->precision < (size - 2) || flags->width > (flags->precision + 2)))
 	{
 		ft_putnstr(str, 2);
-		if (flags->precision > (size - 2))
+		if (flags->precision && flags->precision > (size - 2))
 			ft_filler('0', flags->precision - (size - 2));
 		ft_putstrfrom(str, 3);
 		if (flags->precision && flags->precision > (size - 2))

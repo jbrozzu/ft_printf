@@ -41,7 +41,10 @@ char	*ft_get_next_valor(const char *str, int *tab, char *result)
 void	check_width(const char *str, t_flags *flags, int *tab)
 {
 	char result[100];
-
+	if (ft_isdigit(str[tab[0]]) == 0)
+		flags->empty_w = 1;
+	else
+		flags->empty_w = 0;
 	ft_get_next_valor(str, tab, result);
 	flags->width = ft_atoi(result);
 }
@@ -53,7 +56,11 @@ void	check_prec(const char *str, t_flags *flags, int *tab)
 	if (str[tab[0]] == '.')
 	{
 		tab[0] += 1;
-		flags->o_point = 1;                   
+		flags->o_point = 1;
+		if (ft_isdigit(str[tab[0]]) == 0)
+		flags->empty_p = 1;
+	else
+		flags->empty_p = 0;                
 		ft_get_next_valor(str, tab, result);
 		flags->precision = ft_atoi(result);
 	}

@@ -29,6 +29,8 @@ typedef	struct	s_flags
 	int			precision;
 	int			size;
 	char		type;
+	int 		empty_w;
+	int 		empty_p;
 }				t_flags;
 
 

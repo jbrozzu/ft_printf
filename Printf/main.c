@@ -19,8 +19,111 @@ int		main(void)
 	char* l = setlocale(LC_ALL, "");
 	
 
+//	i = ft_printf("i%#.x, %#.0xi\n", 0, 0);
+//	printf("return mine : %d\n", i - 3);
+	j = printf("i%#xi\n", 0);
+	printf("return real : %d\n", j - 3);
+	i = ft_printf("i%#xi\n", 0);
+	printf("return mine : %d\n\n", i - 3);
 
+	j = printf("i%.xi\n", 0);
+	printf("return real : %d\n", j - 3);
+	i = ft_printf("i%.xi\n", 0);
+	printf("return mine : %d\n\n", i - 3);
 
+/*	j = printf("i%5.3xi\n", 0);
+	printf("return real : %d\n", j - 3);
+	i = ft_printf("i%5.3xi\n", 0);
+	printf("return mine : %d\n\n", i - 3);
+
+	j = printf("i%2.2xi\n", 0);
+	printf("return real : %d\n", j - 3);
+	i = ft_printf("i%2.2xi\n", 0);
+	printf("return mine : %d\n\n", i - 3);
+
+	j = printf("i%5.5xi\n", 0);
+	printf("return real : %d\n", j - 3);
+	i = ft_printf("i%5.5xi\n", 0);
+	printf("return mine : %d\n\n", i - 3);
+
+	j = printf("i%0xi\n", 0);
+	printf("return real : %d\n", j - 3);
+	i = ft_printf("i%0xi\n", 0);
+	printf("return mine : %d\n\n", i - 3);
+
+	j = printf("i%1.1xi\n", 0);
+	printf("return real : %d\n", j - 3);
+	i = ft_printf("i%1.1xi\n", 0);
+	printf("return mine : %d\n\n", i - 3);
+
+	j = printf("i%.5xi\n", 0);
+	printf("return real : %d\n", j - 3);
+	i = ft_printf("i%.5xi\n", 0);
+	printf("return mine : %d\n\n", i - 3);
+
+	j = printf("i%5xi\n", 0);
+	printf("return real : %d\n", j - 3);
+	i = ft_printf("i%5xi\n", 0);
+	printf("return mine : %d\n\n", i - 3);  */
+
+/*	i = ft_printf("i%03Xi\n", 2003);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%03Xi\n", 2003);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%07Xi\n", 2003);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%07Xi\n", 2003);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%0.3Xi\n", 2003);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%0.3Xi\n", 2003);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%0.7Xi\n", 2003);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%0.7Xi\n", 2003);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%05.5Xi\n", 2003);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%05.5Xi\n", 2003);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%08.5Xi\n", 2003);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%08.5Xi\n", 2003);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%07.3Xi\n", 2003);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%07.3Xi\n", 2003);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%03.7Xi\n", 2003);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%03.7Xi\n", 2003);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%03.2Xi\n", 2003);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%03.2Xi\n", 2003);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%07.Xi\n", 2003);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%07.Xi\n", 2003);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%03.Xi\n", 2003);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%03.Xi\n", 2003);
+	printf("return real : %d\n\n", j - 3); */
+
+//	printf("%d\n", 90 >> 3);
+
+/*
 	i = ft_printf("i%si\n", "bonjour");
 	printf("return mine : %d\n", i - 3);
 	j = printf("i%si\n", "bonjour");
@@ -112,7 +215,7 @@ int		main(void)
 
 	bonjour420x7fff5d2e975f%暖炉 9223372036854775807  42     52               40000000052        100000184467440737095516152a2Ac플
 
-
+*/
 
 
 	/*
