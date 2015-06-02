@@ -58,12 +58,14 @@ void	check_prec(const char *str, t_flags *flags, int *tab)
 		tab[0] += 1;
 		flags->o_point = 1;
 		if (ft_isdigit(str[tab[0]]) == 0)
-		flags->empty_p = 1;
-	else
-		flags->empty_p = 0;                
+			flags->empty_p = 1;
+		else
+			flags->empty_p = 0;
 		ft_get_next_valor(str, tab, result);
 		flags->precision = ft_atoi(result);
 	}
+	else
+		flags->empty_p = 1;
 }
 
 void	check_modif(const char *str, t_flags *flags, int *tab)

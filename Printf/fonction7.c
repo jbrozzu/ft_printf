@@ -4,7 +4,7 @@ HEADER
 
 #include "ft_printf.h"
 
-int		max_ul(t_flags *flags)
+int		max_unsigned_long(t_flags *flags)
 {
 	int size;
 
@@ -22,7 +22,7 @@ int		max_ul(t_flags *flags)
 	return (size);
 }
 
-int		max_l(t_flags *flags)
+int		max_long(t_flags *flags)
 {
 	int size;
 
@@ -40,7 +40,7 @@ int		max_l(t_flags *flags)
 	return (size);
 }
 
-int		max_uol(t_flags *flags)
+int		max_unsigned_octal_long(t_flags *flags)
 {
 	int size;
 
@@ -58,17 +58,22 @@ int		max_uol(t_flags *flags)
 	return (size);
 }
 
-int		max_value(t_flags *flags, unsigned long long nb)
+int		limit_max(t_flags *flags, unsigned long long nb)
 {
 	int size;
 
 	size = 0;
+	//if (nb > 0 && flags->o_sharp)
+	//{
+	//	ft_putchar('0');
+	//	size += 1;
+	//}
 	if ((flags->type == 'O' || flags->modif1 == 'l' || flags->modif1 == 'j' \
 		|| flags->modif1 == 'z') && nb >= ULONG_MAX)
-		size = max_ul(flags);
+		size = max_unsigned_long(flags);
 	else if ((flags->type == 'o' && flags->modif1 == '\0') && nb >= LONG_MAX)
-		size = max_l(flags);
+		size = max_long(flags);
 	else
-		size = max_uol(flags);
+		size = max_unsigned_octal_long(flags);
 	return (size);
 }
