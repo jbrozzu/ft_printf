@@ -3,9 +3,9 @@ HEADER
 */
 
 #include "ft_printf.h"
-#include <stdio.h>
+//#include <stdio.h>
 #include <locale.h>
-# include <LIMITS.h>
+//# include <LIMITS.h>
 
 
 int		main(void)
@@ -19,124 +19,229 @@ int		main(void)
 	char* l = setlocale(LC_ALL, "");
 	
 
+
+
+	/*j = printf("{% 5d}\n", 42);
+	printf("return real : %d\n", j - 3);
+
+	j = printf("{% 1d}\n", 0);
+	printf("return real : %d\n", j - 3);
+
+	j = printf("{% .5d}\n", 0);
+	printf("return real : %d\n", j - 3);
+
+	j = printf("{% .2d}\n", 0);
+	printf("return real : %d\n", j - 3);
+
+	j = printf("{% 7.5d}\n", 0);
+	printf("return real : %d\n", j - 3);*/
+
+	/*i = ft_printf("i%si\n", "bonjour");
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%si\n", "bonjour");
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%di\n", 42);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%di\n", 42);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%pi\n", &c);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%pi\n", &c);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%%i\n");
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%%i\n");
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%Si\n", L"暖炉");
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%Si\n", L"暖炉");
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%Di\n", LONG_MAX);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%Di\n", LONG_MAX);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%ii\n", 42);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%ii\n", 42);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%oi\n", 42);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%oi\n", 42);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%Oi\n", 42);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%Oi\n", 42);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%ui\n", 100000);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%ui\n", 100000);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%Ui\n", ULONG_MAX);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%Ui\n", ULONG_MAX);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%xi\n", 42);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%xi\n", 42);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%Xi\n", 42);
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%Xi\n", 42);
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%ci\n", 'c');
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%ci\n", 'c');
+	printf("return real : %d\n\n", j - 3);
+
+	i = ft_printf("i%Ci\n", L'플');
+	printf("return mine : %d\n", i - 3);
+	j = printf("i%Ci\n", L'플');
+	printf("return real : %d\n\n", j - 3);*/
+
+
+
+	
+	i = ft_printf("%U%U%U%U%U%U%U%U%U%U%U%U%U%U%U%U%U%U%U%U\n", ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX);
+	printf("return mine : %d\n", i - 3);
+	j = printf("%U%U%U%U%U%U%U%U%U%U%U%U%U%U%U%U%U%U%U%U\n", ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX);
+	printf("return real : %d\n\n", j - 3);
+	
+
+
+//	j = printf("%p %% %S %D %i %o %O %u %U %x %X %c %C\n", &c, L"暖炉", LONG_MAX, 42, 42, 42, 100000, ULONG_MAX, 42, 42, 'c', L'플');
+//	printf("return real : %d\n", j - 1);
+//	i = ft_printf("%p %% %S %D %i %o %O %u %U %x %X %c %C\n", &c, L"暖炉", LONG_MAX, 42, 42, 42, 100000, ULONG_MAX, 42, 42, 'c', L'플');
+//	printf("return mine : %d\n\n", i - 1);
+
+
+//0x7fff5eb28a07  %  暖炉  9223372036854775807  42    52    4007135200000000052           100000               184467440737095516152a                 2Ac플
+//return real : 97
+//0x7fff5eb28a07  %  暖炉  9223372036854775807  42    52    4007135200000000052       140733193488032          184467440737095516152a    1000000      2Ac플
+//return mine : 113
+
+//bonjour  42  0x7fff54e80a07  %  暖炉  9223372036854775807  42  52                      204005420140000000052    100000  184467440737095516152a                      2A   c    플
+//bonjour  42  0x7fff54e80a07  %  暖炉  9223372036854775807  42  70351222400000000052    204005420140000000052    140733193488032184467440737095516152a1000000        2A   c    플
+
+//52               3774300000000052
+//3774300000000052 3774300000000052
+                                      
+//return real : 108
+//return mine : 142
+
+/*	j = printf("i{%+03d}i\n", 0);
+	printf("return real : %d\n", j - 3);
+	i = ft_printf("i{%+03d}i\n", 0);
+	printf("return mine : %d\n\n", i - 3);
+
+	j = printf("i{% 03d}i\n", 0);
+	printf("return real : %d\n", j - 3);
+	i = printf("i{% 03d}i\n", 0);
+	printf("return mine : %d\n\n", i - 3);
+
+	j = printf("i{%+03d}i\n", 12);
+	printf("return real : %d\n", j - 3);
+	i = ft_printf("i{%+03d}i\n", 12);
+	printf("return mine : %d\n\n", i - 3);
+
+	j = printf("i{%+03d}i\n", 123456);
+	printf("return real : %d\n", j - 3);
+	i = ft_printf("i{%+03d}i\n", 123456);
+	printf("return mine : %d\n\n", i - 3); */
+
+
+
 //printf("%lu\n", ULONG_MAX);
 //printf("%ld\n", LONG_MAX);
 //printf("%ld\n", LONG_MIN);
 
-	j = printf("i%#.oi\n", 4242);
+/*	j = printf("i%-ui\n", LONG_MAX);
 	printf("return real : %d\n", j - 3);
-	i = ft_printf("i%#.oi\n", 4242);
+	i = ft_printf("i%-ui\n", LONG_MAX);
 	printf("return mine : %d\n\n", i - 3);
 
-	j = printf("i%Oi\n", LONG_MAX);
+	j = printf("i%-.ui\n", 4242);
 	printf("return real : %d\n", j - 3);
-	i = ft_printf("i%Oi\n", LONG_MAX);
+	i = ft_printf("i%-.ui\n", 4242);
 	printf("return mine : %d\n\n", i - 3);
 
-	j = printf("i%#.oi\n", 4242);
+	j = printf("i%-7ui\n", 4242);
 	printf("return real : %d\n", j - 3);
-	i = ft_printf("i%#.oi\n", 4242);
+	i = ft_printf("i%-7ui\n", 4242);
 	printf("return mine : %d\n\n", i - 3);
 
-
-	j = printf("i%#3oi\n", 4242);
+	j = printf("i%-3ui\n", 4242);
 	printf("return real : %d\n", j - 3);
-	i = ft_printf("i%#3oi\n", 4242);
+	i = ft_printf("i%-3ui\n", 4242);
 	printf("return mine : %d\n\n", i - 3);
 
-	j = printf("i%#.7oi\n", 4242);
+	j = printf("i%-.7ui\n", 4242);
 	printf("return real : %d\n", j - 3);
-	i = ft_printf("i%#.7oi\n", 4242);
+	i = ft_printf("i%-.7ui\n", 4242);
 	printf("return mine : %d\n\n", i - 3);
 
-	j = printf("i%#.3oi\n", 4242);
+	j = printf("i%-.3ui\n", 4242);
 	printf("return real : %d\n", j - 3);
-	i = ft_printf("i%#.3oi\n", 4242);
+	i = ft_printf("i%-.3ui\n", 4242);
 	printf("return mine : %d\n\n", i - 3);
 
-	j = printf("i%#2.2oi\n", 4242);
+	j = printf("i%-2.2ui\n", 4242);
 	printf("return real : %d\n", j - 3);
-	i = ft_printf("i%#2.2oi\n", 4242);
+	i = ft_printf("i%-2.2ui\n", 4242);
 	printf("return mine : %d\n\n", i - 3);
 
-	j = printf("i%#7.2oi\n", 4242);
+	j = printf("i%-7.2ui\n", 4242);
 	printf("return real : %d\n", j - 3);
-	i = ft_printf("i%#7.2oi\n", 4242);
+	i = ft_printf("i%-7.2ui\n", 4242);
 	printf("return mine : %d\n\n", i - 3);
 
-	j = printf("i%#2.7oi\n", 4242);
+	j = printf("i%-2.7ui\n", 4242);
 	printf("return real : %d\n", j - 3);
-	i = ft_printf("i%#2.7oi\n", 4242);
+	i = ft_printf("i%-2.7ui\n", 4242);
 	printf("return mine : %d\n\n", i - 3);
 
-	j = printf("i%#7.7oi\n", 4242);
+	j = printf("i%-7.7ui\n", 4242);
 	printf("return real : %d\n", j - 3);
-	i = ft_printf("i%#7.7oi\n", 4242);
+	i = ft_printf("i%-7.7ui\n", 4242);
 	printf("return mine : %d\n\n", i - 3);
 
-	j = printf("i%#10.7oi\n", 4242);
+	j = printf("i%-10.7ui\n", 4242);
 	printf("return real : %d\n", j - 3);
-	i = ft_printf("i%#10.7oi\n", 4242);
+	i = ft_printf("i%-10.7ui\n", 4242);
 	printf("return mine : %d\n\n", i - 3);
 
-	j = printf("i%#7.oi\n", 4242);
+	j = printf("i%-7.ui\n", 4242);
 	printf("return real : %d\n", j - 3);
-	i = ft_printf("i%#7.oi\n", 4242);
-	printf("return mine : %d\n\n", i - 3);
-	
-
-
-/*	i = ft_printf("i%#.o, %#.0oi\n", 0, 0);
-	printf("return mine : %d\n", i - 3);
-	j = printf("i%#.o, %#.0oi\n", 0, 0);
-	printf("return real : %d\n\n", j - 3);  */
-
-	j = printf("i%#.oi\n", 0);
-	printf("return real : %d\n", j - 3);
-	i = ft_printf("i%#.oi\n", 0);
+	i = ft_printf("i%-7.ui\n", 4242);
 	printf("return mine : %d\n\n", i - 3);
 
-	j = printf("i%#oi\n", -4242);
+	j = printf("i%-.ui\n", 0);
 	printf("return real : %d\n", j - 3);
-	i = ft_printf("i%#oi\n", -4242);
+	i = ft_printf("i%-.ui\n", 0);
 	printf("return mine : %d\n\n", i - 3);
 
-/*	j = printf("i%5.3oi\n", 0);
+	j = printf("i%-ui\n", -4242);
 	printf("return real : %d\n", j - 3);
-	i = ft_printf("i%5.3oi\n", 0);
+	i = ft_printf("i%-ui\n", -4242);
 	printf("return mine : %d\n\n", i - 3);
 
-	j = printf("i%2.2oi\n", 0);
+	j = printf("i%-5ui\n", 42);
 	printf("return real : %d\n", j - 3);
-	i = ft_printf("i%2.2oi\n", 0);
-	printf("return mine : %d\n\n", i - 3);
+	i = ft_printf("i%-5ui\n", 42);
+	printf("return mine : %d\n\n", i - 3);  */
 
-	j = printf("i%5.5oi\n", 0);
-	printf("return real : %d\n", j - 3);
-	i = ft_printf("i%5.5oi\n", 0);
-	printf("return mine : %d\n\n", i - 3);
-
-	j = printf("i%0oi\n", 0);
-	printf("return real : %d\n", j - 3);
-	i = ft_printf("i%0oi\n", 0);
-	printf("return mine : %d\n\n", i - 3);
-
-	j = printf("i%1.1oi\n", 0);
-	printf("return real : %d\n", j - 3);
-	i = ft_printf("i%1.1oi\n", 0);
-	printf("return mine : %d\n\n", i - 3);
-
-	j = printf("i%.5oi\n", 0);
-	printf("return real : %d\n", j - 3);
-	i = ft_printf("i%.5oi\n", 0);
-	printf("return mine : %d\n\n", i - 3);   */
-
-	j = printf("i%#5oi\n", 42);
-	printf("return real : %d\n", j - 3);
-	i = ft_printf("i%#5oi\n", 42);
-	printf("return mine : %d\n\n", i - 3);  
-
-	printf("size == %lld\n", LONG_MIN >> (3 * 45));
 
 /*	i = ft_printf("i%03Xi\n", 2003);
 	printf("return mine : %d\n", i - 3);

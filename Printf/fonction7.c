@@ -63,11 +63,6 @@ int		limit_max(t_flags *flags, unsigned long long nb)
 	int size;
 
 	size = 0;
-	//if (nb > 0 && flags->o_sharp)
-	//{
-	//	ft_putchar('0');
-	//	size += 1;
-	//}
 	if ((flags->type == 'O' || flags->modif1 == 'l' || flags->modif1 == 'j' \
 		|| flags->modif1 == 'z') && nb >= ULONG_MAX)
 		size = max_unsigned_long(flags);

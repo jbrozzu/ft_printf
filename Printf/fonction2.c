@@ -3,11 +3,12 @@ HEADER
 */
 
 #include "ft_printf.h"
-#include <stdio.h>
+//#include <stdio.h>
 
 
 void	check_flag(const char *str, t_flags *flags, int *tab)
 {
+	
 	while (str[tab[0]] == '#' || str[tab[0]] == '+' || str[tab[0]] == '0' ||
 			str[tab[0]] == '-' || str[tab[0]] == ' ')
 	{
@@ -16,7 +17,11 @@ void	check_flag(const char *str, t_flags *flags, int *tab)
 		str[tab[0]] == '+' ? (flags->o_plus = 1) : (flags->o_plus = 0);
 		str[tab[0]] == '0' ? (flags->o_zero = 1) : (flags->o_zero = 0);
 		str[tab[0]] == ' ' ? (flags->o_space = 1) : (flags->o_space = 0);
-		tab[0] += 1;
+		if ((flags->o_plus == 1 && (str[tab[0] + 1] == ' ' || str[tab[0] + 1] == '0')) ||
+			(flags->o_space == 1 && str[tab[0] + 1] == '0'))
+			tab[0] += 2;
+		else
+			tab[0] += 1;
 	}
 }
 
