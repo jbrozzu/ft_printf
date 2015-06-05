@@ -114,9 +114,9 @@ int		main(void)
 
 
 	
-	i = ft_printf("%U%U%U%U%U%U%U%U%U%U%U%U%U%U%U%U%U%U%U%U\n", ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX);
+	i = ft_printf("%o%o%o%o%o%o\n", 42, 42, 42, 42, 42, 42);
 	printf("return mine : %d\n", i - 3);
-	j = printf("%U%U%U%U%U%U%U%U%U%U%U%U%U%U%U%U%U%U%U%U\n", ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX);
+	j = printf("%o%o%o%o%o%o\n", 42, 42, 42, 42, 42, 42);
 	printf("return real : %d\n\n", j - 3);
 	
 

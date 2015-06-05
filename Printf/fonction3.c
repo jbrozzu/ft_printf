@@ -134,6 +134,30 @@ void	ft_linttoct(unsigned long long int nb, char *str)
 	}
 	else
 		str[0] = '0';
+
+/*	int					i;
+	unsigned long int	tmp;
+
+	tmp = nb;
+	i = 0;
+	while (tmp > 7)
+	{
+		tmp = tmp / 8;
+		i++;
+	}
+	str = (char *)malloc(sizeof(char) * i + 1);
+	if (str)
+	{
+		str[i + 1] = '\0';
+		while (i >= 0)
+		{
+			tmp = nb % 8;
+			str[i] = 48 + tmp;
+			nb = nb / 8;
+			i--;
+		}
+	}
+	return (str);*/
 }
 
 void	cast_octal(unsigned long long int *c, va_list list, t_flags *flags)
@@ -142,8 +166,10 @@ void	cast_octal(unsigned long long int *c, va_list list, t_flags *flags)
 		*c = (unsigned char)va_arg(list, int);
 	else if (flags->modif1 == 'h')
 		*c = (unsigned short)va_arg(list, int);
-	else
+	else if (flags->modif1 == 'l' || flags->modif1 == 'j' || flags->modif1 == 'z' || flags->type == 'O')
 		*c = (unsigned long long int)va_arg(list, unsigned long long int);
+	else
+		*c = (unsigned int)va_arg(list, unsigned long long int);
 }
 
 void	print_oct_no_flags(t_flags *flags, int *tab ,unsigned long long int value, char *str)
