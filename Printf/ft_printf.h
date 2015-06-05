@@ -59,7 +59,7 @@ int		ft_wstrlen(wchar_t *str);
 int		ft_putwstr(wchar_t *str);
 int		ft_longnbrlen(long int nb);
 void	ft_putlongnbr(long int nb);
-void	print_plus(t_flags *flags/*, int *tab*/, int c/*, int *size*/);
+void	print_plus(t_flags *flags, int c);
 int		ft_nbrlen(int nbr);
 void	ft_putlnbr(unsigned long long int nbr);
 int		ft_lnbrlen(unsigned long long int nbr);

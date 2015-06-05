@@ -3,8 +3,6 @@ HEADER
 */
 
 #include "ft_printf.h"
-//#include <stdio.h>
-
 
 void	check_flag(const char *str, t_flags *flags, int *tab)
 {

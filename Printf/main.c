@@ -3,14 +3,12 @@ HEADER
 */
 
 #include "ft_printf.h"
-//#include <stdio.h>
 #include <locale.h>
-//# include <LIMITS.h>
 
 
 int		main(void)
 {
-	char *str = "Salut!";       //              %20.17p     %.18p    
+	char *str = "Salut!";
 	int i;
 	int j;
 	char c;
@@ -114,17 +112,17 @@ int		main(void)
 
 
 	
-	i = ft_printf("%o%o%o%o%o%o\n", 42, 42, 42, 42, 42, 42);
+	i = ft_printf("%O%O%O%O%O%O\n", 42, 42, 42, 42, 42, 42);
 	printf("return mine : %d\n", i - 3);
-	j = printf("%o%o%o%o%o%o\n", 42, 42, 42, 42, 42, 42);
+	j = printf("%O%O%O%O%O%O\n", 42, 42, 42, 42, 42, 42);
 	printf("return real : %d\n\n", j - 3);
 	
 
 
-//	j = printf("%p %% %S %D %i %o %O %u %U %x %X %c %C\n", &c, L"暖炉", LONG_MAX, 42, 42, 42, 100000, ULONG_MAX, 42, 42, 'c', L'플');
-//	printf("return real : %d\n", j - 1);
-//	i = ft_printf("%p %% %S %D %i %o %O %u %U %x %X %c %C\n", &c, L"暖炉", LONG_MAX, 42, 42, 42, 100000, ULONG_MAX, 42, 42, 'c', L'플');
-//	printf("return mine : %d\n\n", i - 1);
+	j = printf("%s%d%p%%%S%D%i%o%O%u%U%x%X%c%C\n","bonjour", 42, &c, L"暖炉", LONG_MAX, 42, 42, 42, 100000, ULONG_MAX, 42, 42, 'c', L'플');
+	printf("return real : %d\n", j - 1);
+	i = ft_printf("%s%d%p%%%S%D%i%o%O%u%U%x%X%c%C\n","bonjour", 42, &c, L"暖炉", LONG_MAX, 42, 42, 42, 100000, ULONG_MAX, 42, 42, 'c', L'플');
+	printf("return mine : %d\n\n", i - 1);
 
 
 //0x7fff5eb28a07  %  暖炉  9223372036854775807  42    52    4007135200000000052           100000               184467440737095516152a                 2Ac플

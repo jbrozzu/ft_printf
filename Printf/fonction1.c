@@ -3,7 +3,6 @@ HEADER
 */
 
 #include "ft_printf.h"
-//#include <stdio.h>
 
 void	ft_arg_sort(const char *str, va_list list, int *tab)
 {

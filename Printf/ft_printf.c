@@ -3,7 +3,6 @@ HEADER
 */
 
 #include "ft_printf.h"
-//#include <stdio.h>
 
 int		check_conv(const char *format)
 {
