@@ -9,14 +9,20 @@ HEADER
 
 void	cast_unsigned(unsigned long long int *c, va_list list, t_flags *flags)
 {
-	if (flags->modif1 == 'h' && flags->modif2 == 'h' && flags->type != 'U')
+	if (flags->modif1 == 'j')
+		*c = (uintmax_t)va_arg(list, uintmax_t);
+	else if (flags->modif1 == 'z')
+		*c = (ssize_t)va_arg(list, ssize_t);
+	else if (flags->modif1 == 'h' && flags->modif2 == 'h' && flags->type != 'U')
 		*c = (unsigned char)va_arg(list, int);
 	else if (flags->modif1 == 'h')
 		*c = (unsigned short)va_arg(list, int);
-	/*else if (flags->type == 'U' || flags->modif1 == 'z' || flags->modif1 == 'j')
-		*c = va_arg(list, unsigned long long int);*/
-	else
+	else if (flags->modif1 == 'l' && flags->modif2 == '\0')
+		*c = (unsigned long)va_arg(list, unsigned long int);
+	else if ((flags->modif1 == 'l' && flags->modif2 == 'l') || flags->type == 'U')
 		*c = va_arg(list, unsigned long long int);
+	else
+		*c = (unsigned int)va_arg(list, unsigned int);
 }
 
 void	print_u_no_flags(t_flags *flags, unsigned long long int value, int *tab)
@@ -135,16 +141,20 @@ void	ft_linttoct(unsigned long long int nb, char *str)
 
 void	cast_octal(unsigned long long int *c, va_list list, t_flags *flags)
 {
-	if (flags->modif1 == 'h' && flags->modif2 == 'h' && flags->type != 'O')
+	if (flags->modif1 == 'j')
+		*c = (uintmax_t)va_arg(list, uintmax_t);
+	else if (flags->modif1 == 'z')
+		*c = (ssize_t)va_arg(list, ssize_t);
+	else if (flags->modif1 == 'h' && flags->modif2 == 'h' && flags->type != 'O')
 		*c = (unsigned char)va_arg(list, int);
 	else if (flags->modif1 == 'h')
 		*c = (unsigned short)va_arg(list, int);
-	else if (flags->modif1 == 'l' || flags->modif1 == 'j' || flags->modif1 == 'z'/* || flags->type == 'O'*/)
-		*c = (unsigned long long int)va_arg(list, unsigned long long int);
-	else if (flags->type == 'O')
-		*c = (unsigned long long int)va_arg(list, unsigned long int);
+	else if (flags->modif1 == 'l' && flags->modif2 == '\0')
+		*c = (unsigned long int)va_arg(list, unsigned long int);
+	else if ((flags->modif1 == 'l' && flags->modif2 == 'l') || flags->type == 'O')
+		*c = va_arg(list, unsigned long long int);
 	else
-		*c = (unsigned int)va_arg(list, unsigned long long int);
+		*c = (unsigned int)va_arg(list, unsigned int);
 }
 
 void	print_oct_no_flags(t_flags *flags, int *tab ,unsigned long long int value, char *str)
@@ -782,9 +792,16 @@ void	arg_is_long_int_flags(t_flags *flags, va_list list, int *tab, long int c)
 
 void	get_long_int(t_flags *flags, va_list list, int *tab)
 {
-	long int c;
+	long long int c;
 
-	c = (long int)va_arg(list, long int);
+	if (flags->modif1 == 'j')
+		c = (intmax_t)va_arg(list, intmax_t);
+	else if (flags->modif1 == 'z')
+		c = (size_t)va_arg(list, size_t);
+	else if (flags->modif1 == 'l' && flags->modif2 == '\0')
+		c = (long)va_arg(list, long int);
+	else
+		c = va_arg(list, unsigned long long int);
 	if (c < -9223372036854775807)
 	{
 		ft_putstr("-9223372036854775808");
@@ -819,14 +836,20 @@ void	print_width_no_prec(t_flags *flags, int *tab, int c)
 		if (c == 0)
 		{
 			if (flags->o_plus && c >= 0)
-			ft_putchar('+');
-			ft_filler('0', flags->width - size);
+			{
+				ft_putchar('+');
+				ft_filler('0', flags->width - size);
+			}
+			else if (flags->espace_zero == 1)
+				ft_filler('0', flags->width - size);
+			else
+				ft_filler(' ', flags->width - size);
 		}
 		else
 		{
 			ft_filler(' ', flags->width - size);
 			if (flags->o_plus && c >= 0)
-			ft_putchar('+');
+				ft_putchar('+');
 		}
 		ft_putnbr(c);
 		tab[1] += flags->width;
@@ -910,7 +933,9 @@ void	check_width_prec(t_flags *flags, int *tab, int c)
 
 void	print_no_flags(t_flags *flags, int *tab, int c)
 {
-	if (!flags->width && !flags->precision)
+	if (flags->o_point && (flags->precision == 0 || flags->empty_p == 1) && c == 0)
+		return;
+	else if (!flags->width && !flags->precision)
 		print_no_size(flags, tab, c);
 	else if (flags->width && !flags->precision)
 		print_width_no_prec(flags, tab, c);
@@ -925,7 +950,7 @@ void	print_flag_zero(t_flags *flags, int *tab, int c)
 	int size;
 
 	c >= 0 ? (size = ft_nbrlen(c)) : (size = (ft_nbrlen(c) + 1));
-	if (flags->width && flags->width > size && !flags->precision)
+	if (flags->width && flags->width > size && (flags->empty_p == 1 || flags->precision < 0))
 	{
 		c < 0 ? (c = -c, ft_putchar('-')) : (c += 0);
 		ft_filler('0', flags->width - size);
@@ -1009,15 +1034,11 @@ void	get_int(t_flags *flags, va_list list, int *tab)
 
 void	arg_is_int(t_flags *flags, va_list list, int *tab)
 {
-	//printf("\n\n0 = %d, espace = %d\n\n", flags->o_zero, flags->o_plus);
-	if (!(flags->o_point) || (flags->o_point && flags->precision))
-	{
 		if (flags->modif1 == 'l' || flags->modif1 == 'j' || flags->modif1 == 'z' ||
 			flags->type == 'D')
 			get_long_int(flags, list, tab);
 		else
 			get_int(flags, list, tab);
-	}
 }
 
 
@@ -1142,7 +1163,9 @@ void	arg_is_wstr(t_flags *flags, va_list list, int *tab)
 
 void	print_str_no_flags(t_flags *flags, int *tab, int size, char *str)
 {
-	if (flags->width && flags->o_point && !flags->precision)
+	if (flags->o_point && (flags->precision == 0 || flags->empty_p == 1) && !flags->width)
+		return;
+	else if (flags->width && flags->o_point && !flags->precision)
 	{
 		ft_filler(' ', flags->width);
 		tab[1] += flags->width;
@@ -1155,8 +1178,16 @@ void	print_str_no_flags(t_flags *flags, int *tab, int size, char *str)
 	}
 	else if (flags->precision && flags->precision < size && (!flags->width || flags->width <= flags->precision))
 	{
-		ft_putnstr(str, flags->precision);
-		tab[1] += flags->precision;
+		if (flags->precision < 0)
+		{
+			ft_putstr(str);
+			tab[1] += ft_strlen(str);
+		}
+		else
+		{
+			ft_putnstr(str, flags->precision);
+			tab[1] += flags->precision;
+		}
 	}
 	else if (flags->precision && flags->precision < size && flags->width && flags->width > flags->precision)
 	{

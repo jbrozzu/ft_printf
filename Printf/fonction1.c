@@ -9,7 +9,7 @@ void	ft_arg_sort(const char *str, va_list list, int *tab)
 	t_flags flags;
 
 	ft_bzero(&flags, sizeof(t_flags));
-	init_flags(str, &flags, tab);
+	init_flags(str, &flags, tab, list);
 	ft_type_sort(str, &flags, list, tab);
 }
 

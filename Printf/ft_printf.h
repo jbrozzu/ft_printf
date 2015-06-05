@@ -29,19 +29,20 @@ typedef	struct	s_flags
 	char		type;
 	int 		empty_w;
 	int 		empty_p;
+	int 		espace_zero;
 }				t_flags;
 
 
 int 	ft_printf(const char *format, ...);
 int		check_str_ex(const char *str);
 int		check_conv(const char *format);
-void	init_flags(const char *str, t_flags *flags, int *i);
+void	init_flags(const char *str, t_flags *flags, int *i, va_list list);
 void	ft_arg_sort(const char *str, va_list list, int *tab);
 int		get_flags(const char *str, va_list list);
 void	check_flag(const char *str, t_flags *flags, int *tab);
 char	*ft_get_next_valor(const char *str, int *tab, char *result);
-void	check_width(const char *str, t_flags *flags, int *tab);
-void	check_prec(const char *str, t_flags *flags, int *tab);
+void	check_width(const char *str, t_flags *flags, int *tab, va_list list);
+void	check_prec(const char *str, t_flags *flags, int *tab, va_list list);
 void	check_modif(const char *str, t_flags *flags, int *tab);
 void	check_type(const char *str, t_flags *flags, int *i);
 void	ft_type_sort(const char *str, t_flags *flags, va_list list, int *i);

@@ -6,7 +6,6 @@ HEADER
 
 void	check_flag(const char *str, t_flags *flags, int *tab)
 {
-	
 	while (str[tab[0]] == '#' || str[tab[0]] == '+' || str[tab[0]] == '0' ||
 			str[tab[0]] == '-' || str[tab[0]] == ' ')
 	{
@@ -15,11 +14,13 @@ void	check_flag(const char *str, t_flags *flags, int *tab)
 		str[tab[0]] == '+' ? (flags->o_plus = 1) : (flags->o_plus = 0);
 		str[tab[0]] == '0' ? (flags->o_zero = 1) : (flags->o_zero = 0);
 		str[tab[0]] == ' ' ? (flags->o_space = 1) : (flags->o_space = 0);
-		if ((flags->o_plus == 1 && (str[tab[0] + 1] == ' ' || str[tab[0] + 1] == '0')) ||
-			(flags->o_space == 1 && str[tab[0] + 1] == '0'))
-			tab[0] += 2;
-		else
+		tab[0] += 1;
+		if ((flags->o_plus == 1 && (str[tab[0]] == ' ' || str[tab[0]] == '0')) ||
+			(flags->o_space == 1 && str[tab[0]] == '0' && ft_isdigit(str[tab[0] + 1]) == 1))
+		{
+			flags->espace_zero = 1;
 			tab[0] += 1;
+		}
 	}
 }
 
@@ -41,18 +42,45 @@ char	*ft_get_next_valor(const char *str, int *tab, char *result)
 	return (result);
 }
 
-void	check_width(const char *str, t_flags *flags, int *tab)
+void	ft_wildcard(t_flags *flags, va_list list, int *tab)
 {
-	char result[100];
-	if (ft_isdigit(str[tab[0]]) == 0)
+	flags->width = va_arg(list, int);
+	if (flags->o_sharp == '\0' && flags->o_min == '\0' && flags->o_plus == '\0' &&
+	flags->o_zero == '\0' && flags->o_space == '\0' && flags->width < 0)
+	{
+		flags->o_min = 1;
+		flags->width *= (-1);
+	}
+	tab[0] += 1;
+}
+
+void	check_width(const char *str, t_flags *flags, int *tab, va_list list)
+{
+	char 	result[100];
+
+	if (ft_isdigit(str[tab[0]]) == 0 && str[tab[0]] != '*')
 		flags->empty_w = 1;
 	else
 		flags->empty_w = 0;
-	ft_get_next_valor(str, tab, result);
-	flags->width = ft_atoi(result);
+	if (ft_isdigit(str[tab[0]]) == 1)
+	{
+		ft_get_next_valor(str, tab, result);
+		flags->width = ft_atoi(result);
+		if (str[tab[0]] == '*')
+			ft_wildcard(flags, list, tab);
+	}
+	else if (str[tab[0]] == '*')
+	{
+		ft_wildcard(flags, list, tab);
+		if (ft_isdigit(str[tab[0]]) == 1)// && flags->width == 0)
+		{
+			ft_get_next_valor(str, tab, result);
+			flags->width = ft_atoi(result);
+		}
+	}
 }
 
-void	check_prec(const char *str, t_flags *flags, int *tab)
+void	check_prec(const char *str, t_flags *flags, int *tab, va_list list)
 {
 	char result[100];
 
@@ -60,12 +88,20 @@ void	check_prec(const char *str, t_flags *flags, int *tab)
 	{
 		tab[0] += 1;
 		flags->o_point = 1;
-		if (ft_isdigit(str[tab[0]]) == 0)
+		if (ft_isdigit(str[tab[0]]) == 0 && str[tab[0]] != '*')
 			flags->empty_p = 1;
 		else
 			flags->empty_p = 0;
-		ft_get_next_valor(str, tab, result);
-		flags->precision = ft_atoi(result);
+		if (ft_isdigit(str[tab[0]]) == 1)
+		{
+			ft_get_next_valor(str, tab, result);
+			flags->precision = ft_atoi(result);
+		}
+		else if (str[tab[0]] == '*')
+		{
+			flags->precision = va_arg(list, int);
+			tab[0] += 1;
+		}
 	}
 	else
 		flags->empty_p = 1;
@@ -104,12 +140,12 @@ void	check_type(const char *str, t_flags *flags, int *tab)
 		flags->type = '\0';
 }
 
-void	init_flags(const char *str, t_flags *flags, int *tab)
+void	init_flags(const char *str, t_flags *flags, int *tab, va_list list)
 {
 	tab[0] += 1;
 	check_flag(str, flags, tab);
-	check_width(str, flags, tab);
-	check_prec(str, flags, tab);
+	check_width(str, flags, tab, list);
+	check_prec(str, flags, tab, list);
 	check_modif(str, flags, tab);
 	check_type(str, flags, tab);
 }
